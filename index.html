@@ -1,0 +1,778 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zepplin Studios — Digitalisering voor kmo's: registratie, digitale documenten, ISPS &amp; toegang, Peppol &amp; ERP</title>
+<meta name="description" content="Zepplin Studios digitaliseert kmo's van vloer tot factuur: registratie op de werkvloer, digitale documenten, ISPS &amp; toegangscontrole, Peppol &amp; ERP-koppelingen. Start met een digitaliseringsscan aan vaste prijs.">
+<meta property="og:title" content="Zepplin Studios — Van vloer tot factuur. Be the change.">
+<meta property="og:description" content="Digitalisering en automatisering voor kmo's in haven, voeding, productie en transport.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+/* ============ TOKENS ============ */
+:root{
+  --black:#000000;
+  --ink:#0A0A0A;
+  --coal:#1A1A1A;
+  --steel:#666666;
+  --mist:#E5E5E5;
+  --paper:#FAFAFA;
+  --white:#FFFFFF;
+  --accent:#FF4D00; /* signal orange — sparingly */
+  --display:'Space Grotesk',sans-serif;
+  --body:'Inter',sans-serif;
+  --mono:'IBM Plex Mono',monospace;
+  --hair:1px solid;
+  --max:1240px;
+  --pad:clamp(20px,5vw,64px);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{font-family:var(--body);background:var(--paper);color:var(--ink);font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent);color:var(--black)}
+a{color:inherit}
+img,svg{display:block;max-width:100%}
+.wrap{max-width:var(--max);margin:0 auto;padding-left:var(--pad);padding-right:var(--pad)}
+body::after{content:"";position:fixed;inset:0;pointer-events:none;z-index:999;opacity:.05;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='0.6'/%3E%3C/svg%3E");}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;display:inline-flex;align-items:center;gap:12px;color:var(--steel)}
+.eyebrow::before{content:"";width:32px;height:1px;background:var(--accent)}
+h1,h2,h3{font-family:var(--display);font-weight:700;line-height:1.04;letter-spacing:-.02em}
+h2{font-size:clamp(32px,5vw,58px);text-transform:uppercase}
+.btn{font-family:var(--mono);font-size:13px;letter-spacing:.14em;text-transform:uppercase;display:inline-block;padding:16px 30px;text-decoration:none;border:1px solid var(--ink);transition:background .25s,color .25s,border-color .25s;cursor:pointer;background:transparent;color:var(--ink)}
+.btn:hover{background:var(--ink);color:var(--white)}
+.btn.accent{background:var(--accent);border-color:var(--accent);color:var(--black)}
+.btn.accent:hover{background:var(--black);border-color:var(--black);color:var(--white)}
+.btn.inverse{border-color:var(--white);color:var(--white)}
+.btn.inverse:hover{background:var(--white);color:var(--black)}
+.btn:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+.rv{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s ease}
+.rv.in{opacity:1;transform:none}
+.rv.d1{transition-delay:.12s}.rv.d2{transition-delay:.24s}.rv.d3{transition-delay:.36s}
+.tag{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;border:1px solid var(--accent);color:var(--accent);padding:5px 10px;display:inline-block}
+
+/* ============ NAV ============ */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(0,0,0,.92);backdrop-filter:blur(8px);border-bottom:var(--hair) var(--coal);color:var(--white)}
+.nav-in{max-width:var(--max);margin:0 auto;padding:0 var(--pad);height:68px;display:flex;align-items:center;justify-content:space-between;gap:20px}
+.wordmark{font-family:var(--display);font-weight:700;font-size:16px;letter-spacing:.16em;text-decoration:none;display:flex;align-items:center;gap:12px;white-space:nowrap}
+.wordmark svg{width:34px;height:16px}
+.nav-links{display:flex;gap:26px;list-style:none}
+.nav-links a{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;text-decoration:none;color:var(--mist);padding:6px 0;border-bottom:1px solid transparent;transition:border-color .2s,color .2s}
+.nav-links a:hover{color:var(--white);border-color:var(--accent)}
+.nav-right{display:flex;align-items:center;gap:16px}
+.lang-toggle{font-family:var(--mono);font-size:11px;letter-spacing:.16em;background:none;border:1px solid var(--coal);color:var(--mist);padding:9px 14px;cursor:pointer;transition:border-color .2s,color .2s}
+.lang-toggle:hover{border-color:var(--white);color:var(--white)}
+.nav-cta{font-size:11px;padding:11px 20px}
+@media(max-width:1020px){.nav-links{display:none}}
+@media(max-width:520px){.nav-cta{display:none}}
+
+/* ============ HERO ============ */
+.hero{min-height:100vh;background:var(--black);color:var(--white);position:relative;overflow:hidden;display:flex;align-items:flex-end;padding-top:68px}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.045) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.045) 1px,transparent 1px);background-size:72px 72px}
+.hero-zep{position:absolute;top:11%;right:4%;width:min(56vw,700px);animation:drift 9s ease-in-out infinite alternate;opacity:.9}
+@keyframes drift{from{transform:translate(0,0) rotate(-1deg)}to{transform:translate(-26px,16px) rotate(.6deg)}}
+.hero-zep path,.hero-zep line,.hero-zep ellipse,.hero-zep circle{stroke:var(--white)}
+.hero-body{position:relative;z-index:2;width:100%;padding-bottom:clamp(56px,9vh,110px)}
+.hero .eyebrow{color:var(--mist);margin-bottom:28px}
+.hero h1{font-size:clamp(38px,6.6vw,92px);text-transform:uppercase;max-width:15ch}
+.hero h1 em{font-style:normal;position:relative;white-space:nowrap}
+.hero h1 em::after{content:"";position:absolute;left:0;right:0;bottom:.06em;height:4px;background:var(--accent)}
+.hero-sub{max-width:56ch;color:var(--mist);margin:28px 0 40px;font-size:clamp(15px,1.4vw,18px)}
+.hero-ctas{display:flex;gap:16px;flex-wrap:wrap;align-items:center}
+.hero-ctas .price-hint{font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--steel)}
+.fig{position:absolute;z-index:2;top:calc(11% + min(29vw,370px));right:6%;font-family:var(--mono);font-size:11px;letter-spacing:.1em;color:var(--steel);border-top:1px solid var(--coal);padding-top:10px;max-width:280px}
+@media(max-width:760px){.hero-zep{top:9%;right:-14%;width:100vw;opacity:.5}.fig{display:none}}
+.hero-baseline{position:relative;z-index:2;border-top:var(--hair) var(--coal);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--steel);padding:14px var(--pad);max-width:var(--max);margin:0 auto;width:100%}
+
+/* ============ PROBLEM ============ */
+.problem{background:var(--white);padding:clamp(80px,12vh,150px) 0;border-bottom:var(--hair) var(--mist)}
+.problem h2{max-width:22ch;margin:20px 0 16px}
+.problem-lede{max-width:62ch;color:var(--steel);margin-bottom:64px}
+.flow{display:grid;grid-template-columns:1fr auto 1fr;gap:clamp(16px,3vw,48px);align-items:center}
+.papers{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+.paper{border:var(--hair) var(--ink);background:var(--paper);padding:16px 14px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;line-height:1.5;box-shadow:4px 4px 0 var(--mist)}
+.paper b{display:block;font-size:10px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:8px;border-bottom:1px solid var(--mist);padding-bottom:6px}
+.paper span{color:var(--steel)}
+.paper:nth-child(2){transform:rotate(1.2deg)}
+.paper:nth-child(3){transform:rotate(-1deg)}
+.paper:nth-child(5){transform:rotate(.8deg)}
+/* error cascade */
+.cascade{margin-top:64px;display:flex;align-items:stretch;gap:10px;flex-wrap:wrap;border:var(--hair) var(--ink);padding:20px 22px;background:var(--paper)}
+.cstep{display:flex;align-items:center;gap:10px;font-family:var(--mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase}
+.cstep i{font-style:normal;width:24px;height:24px;border:1px solid var(--ink);display:inline-flex;align-items:center;justify-content:center;font-size:11px;flex-shrink:0}
+.cstep.err{color:var(--accent)}
+.cstep.err i{border-color:var(--accent);color:var(--accent)}
+.carrow{font-family:var(--mono);color:var(--steel);align-self:center}
+.carrow.err{color:var(--accent)}
+@media(max-width:820px){.cascade{flex-direction:column;gap:6px}.carrow{transform:rotate(90deg);align-self:flex-start;margin-left:5px}}
+.flow-arrow{display:flex;flex-direction:column;align-items:center;gap:10px;font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--accent)}
+.flow-arrow svg{width:64px;height:24px}
+.flow-arrow svg *{stroke:var(--accent)}
+.digital{border:2px solid var(--ink);background:var(--black);color:var(--white);padding:26px 22px;font-family:var(--mono);font-size:12px;line-height:2}
+.digital b{display:block;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--mist);border-bottom:1px solid var(--coal);padding-bottom:10px;margin-bottom:14px}
+.digital .ok::before{content:"■ ";font-size:8px;vertical-align:2px;color:var(--accent)}
+.problem-stat{margin-top:72px;border-top:var(--hair) var(--ink);padding-top:28px;display:flex;gap:24px;align-items:baseline;flex-wrap:wrap;justify-content:space-between}
+.problem-stat strong{font-family:var(--display);font-size:clamp(24px,3.2vw,40px);font-weight:700;line-height:1.15;max-width:26ch;text-transform:uppercase}
+.problem-stat span{font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--steel)}
+@media(max-width:860px){.flow{grid-template-columns:1fr}.flow-arrow{flex-direction:row}.flow-arrow svg{transform:rotate(90deg);width:40px}}
+
+/* ============ PILLARS ============ */
+.pillars{background:var(--ink);color:var(--white);padding:clamp(80px,12vh,150px) 0}
+.pillars .eyebrow{color:var(--mist)}
+.pillars h2{margin:20px 0 14px}
+.pillars-lede{color:var(--steel);max-width:60ch;margin-bottom:56px}
+.chain{display:flex;align-items:center;gap:14px;flex-wrap:wrap;font-family:var(--mono);font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--mist);margin-bottom:64px;border:var(--hair) var(--coal);padding:18px 22px}
+.chain .arrow{color:var(--accent)}
+.pillar-grid{display:grid;grid-template-columns:1fr 1fr;border-top:var(--hair) var(--coal);border-left:var(--hair) var(--coal)}
+.pillar{border-right:var(--hair) var(--coal);border-bottom:var(--hair) var(--coal);padding:clamp(28px,4vw,52px);position:relative;transition:background .3s}
+.pillar:hover{background:var(--black)}
+.pillar .num{font-family:var(--mono);font-size:12px;letter-spacing:.24em;color:var(--accent)}
+.pillar h3{font-size:clamp(22px,2.6vw,32px);text-transform:uppercase;margin:16px 0 6px}
+.pillar .sub{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--steel);margin-bottom:20px;display:block}
+.pillar p{font-size:14px;color:var(--mist);margin-bottom:20px;max-width:52ch}
+.pillar ul{list-style:none;font-size:13px;color:var(--steel);font-family:var(--mono)}
+.pillar li{padding:8px 0;border-top:1px solid var(--coal);display:flex;gap:12px}
+.pillar li::before{content:"—";color:var(--accent);flex-shrink:0}
+.pillar .tag{margin-top:22px}
+@media(max-width:820px){.pillar-grid{grid-template-columns:1fr}}
+
+/* ============ SECTORS STRIP ============ */
+.sectors{background:var(--white);padding:clamp(70px,10vh,120px) 0;border-bottom:var(--hair) var(--mist)}
+.sectors h2{margin:20px 0 48px;font-size:clamp(26px,3.6vw,44px)}
+.sector-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:2px solid var(--ink)}
+.sector{padding:26px clamp(4px,1.5vw,22px) 8px 0;border-right:var(--hair) var(--mist);padding-right:clamp(14px,2vw,28px)}
+.sector:last-child{border-right:none}
+.sector .num{font-family:var(--mono);font-size:10px;letter-spacing:.22em;color:var(--steel)}
+.sector h3{font-size:clamp(16px,1.7vw,21px);text-transform:uppercase;margin:10px 0 14px}
+.sector ul{list-style:none;font-size:13px;color:var(--steel)}
+.sector li{padding:6px 0;display:flex;gap:8px}
+.sector li::before{content:"■";font-size:6px;padding-top:8px;color:var(--accent)}
+@media(max-width:820px){.sector-strip{grid-template-columns:1fr 1fr}.sector{border-bottom:var(--hair) var(--mist);padding-bottom:20px}}
+@media(max-width:480px){.sector-strip{grid-template-columns:1fr}.sector{border-right:none}}
+
+/* ============ SCAN ============ */
+.scan{background:var(--paper);padding:clamp(80px,12vh,150px) 0;border-bottom:var(--hair) var(--mist)}
+.scan-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:clamp(40px,6vw,100px);align-items:start}
+.scan h2{margin:20px 0 20px}
+.scan-lede{color:var(--steel);max-width:52ch;margin-bottom:32px}
+.scan-points{list-style:none;border-top:2px solid var(--ink)}
+.scan-points li{display:flex;gap:18px;padding:16px 0;border-bottom:var(--hair) var(--mist);font-size:15px}
+.scan-points li b{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--accent);text-transform:uppercase;flex-shrink:0;width:88px;padding-top:3px;font-weight:500}
+.offer-card{border:2px solid var(--ink);background:var(--white);box-shadow:8px 8px 0 var(--ink);padding:clamp(26px,3.5vw,42px);position:sticky;top:100px}
+.offer-head{font-family:var(--mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--steel);display:flex;justify-content:space-between;border-bottom:var(--hair) var(--ink);padding-bottom:14px;margin-bottom:24px}
+.offer-card h3{font-size:clamp(24px,2.6vw,34px);text-transform:uppercase}
+.offer-price{font-family:var(--mono);font-size:clamp(30px,3.4vw,44px);font-weight:500;margin:18px 0 4px;letter-spacing:-.02em;color:var(--accent)}
+.offer-price small{font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--steel);display:block;margin-top:6px;font-weight:400}
+.offer-card ul{list-style:none;margin:24px 0 28px;font-size:14px}
+.offer-card li{padding:8px 0;border-top:1px solid var(--mist);display:flex;gap:10px}
+.offer-card li::before{content:"■";font-size:8px;padding-top:7px;color:var(--accent)}
+.offer-note{font-family:var(--mono);font-size:11px;letter-spacing:.06em;color:var(--steel);margin-top:16px;line-height:1.7}
+@media(max-width:900px){.scan-grid{grid-template-columns:1fr}.offer-card{position:static}}
+
+/* ============ CASE ============ */
+.case{background:var(--white);padding:clamp(80px,12vh,150px) 0;border-bottom:var(--hair) var(--mist)}
+.case h2{margin:20px 0 56px}
+.case-card{border:var(--hair) var(--ink);background:var(--white);display:grid;grid-template-columns:1fr 1fr;box-shadow:6px 6px 0 var(--mist)}
+.case-visual{background:var(--black);color:var(--white);padding:clamp(26px,4vw,48px);position:relative;display:flex;flex-direction:column;justify-content:space-between;min-height:340px}
+.case-visual svg{width:100%;max-width:380px;margin:auto}
+.case-visual svg *{stroke:var(--white);fill:none;stroke-width:1.2}
+.case-stamp{font-family:var(--mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--steel);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.case-stamp .live{color:var(--accent)}
+.case-body{padding:clamp(26px,4vw,48px)}
+.case-body h3{font-size:clamp(20px,2.2vw,28px);text-transform:uppercase;margin-bottom:22px}
+.case-rows{border-top:2px solid var(--ink);margin-bottom:26px}
+.case-row{display:grid;grid-template-columns:110px 1fr;gap:18px;padding:13px 0;border-bottom:var(--hair) var(--mist);font-size:14px}
+.case-row b{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--steel);font-weight:400;padding-top:2px}
+.case-quote{border-left:3px solid var(--accent);padding-left:20px;font-family:var(--display);font-size:17px;font-weight:500;line-height:1.4}
+.case-quote footer{font-family:var(--mono);font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:var(--steel);margin-top:10px}
+.case-more{margin-top:36px;font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--steel);max-width:70ch;line-height:1.8}
+@media(max-width:860px){.case-card{grid-template-columns:1fr}}
+
+/* ============ APPROACH ============ */
+.approach{background:var(--ink);color:var(--white);padding:clamp(80px,12vh,150px) 0}
+.approach .eyebrow{color:var(--mist)}
+.approach h2{margin:20px 0 12px}
+.approach-lede{color:var(--steel);max-width:56ch;margin-bottom:80px}
+.flightpath{position:relative;margin-bottom:56px}
+.flightpath svg{width:100%;height:60px;overflow:visible}
+.flightpath .path{stroke:var(--white);stroke-width:1.2;stroke-dasharray:5 7;fill:none;opacity:.6}
+.flightpath .node{fill:var(--accent);stroke:var(--accent)}
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:clamp(16px,3vw,40px)}
+.step .code{font-family:var(--mono);font-size:11px;letter-spacing:.24em;color:var(--accent)}
+.step h3{font-size:clamp(18px,2vw,24px);text-transform:uppercase;margin:12px 0 10px}
+.step p{font-size:14px;color:var(--mist)}
+.approach-note{margin-top:72px;border:var(--hair) var(--white);padding:22px 26px;display:inline-block;font-family:var(--mono);font-size:12px;letter-spacing:.08em;box-shadow:5px 5px 0 var(--accent)}
+@media(max-width:860px){.steps{grid-template-columns:1fr 1fr}.flightpath{display:none}}
+@media(max-width:520px){.steps{grid-template-columns:1fr}}
+
+/* ============ FAQ ============ */
+.faq{background:var(--white);padding:clamp(80px,12vh,150px) 0;border-bottom:var(--hair) var(--mist)}
+.faq h2{margin:20px 0 56px;max-width:18ch}
+.faq-list{border-top:2px solid var(--ink);max-width:860px}
+details{border-bottom:var(--hair) var(--mist)}
+summary{cursor:pointer;list-style:none;display:flex;justify-content:space-between;align-items:baseline;gap:20px;padding:22px 0;font-family:var(--display);font-weight:500;font-size:clamp(16px,1.8vw,20px)}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-family:var(--mono);font-size:20px;color:var(--accent);flex-shrink:0;transition:transform .2s}
+details[open] summary::after{transform:rotate(45deg)}
+details p{color:var(--steel);padding:0 0 24px;max-width:68ch;font-size:15px}
+
+/* ============ MANIFESTO ============ */
+.manifesto{background:var(--black);color:var(--white);border-top:var(--hair) var(--coal);padding:clamp(100px,18vh,200px) 0;position:relative;overflow:hidden;text-align:center}
+.manifesto-zep{position:absolute;top:50%;left:0;width:340px;transform:translateY(-50%);opacity:.16;animation:cross 36s linear infinite}
+.manifesto-zep *{stroke:var(--white)}
+@keyframes cross{from{transform:translate(-380px,-50%)}to{transform:translate(100vw,-50%)}}
+.manifesto h2{font-size:clamp(48px,9vw,140px);position:relative;z-index:2;text-transform:none;letter-spacing:-.03em}
+.manifesto h2 span{color:var(--accent)}
+.manifesto small{position:relative;z-index:2;display:block;margin-top:28px;font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--steel)}
+
+/* ============ CONTACT ============ */
+.contact{background:var(--white);padding:clamp(80px,12vh,150px) 0}
+.contact-grid{display:grid;grid-template-columns:1fr 1.2fr;gap:clamp(40px,6vw,100px)}
+.contact h2{margin:20px 0 24px}
+.contact-info>p{color:var(--steel);max-width:44ch;margin-bottom:36px}
+.contact-lines{font-family:var(--mono);font-size:13px;line-height:2.4}
+.contact-lines a{text-decoration:none;border-bottom:2px solid var(--accent)}
+form{border:var(--hair) var(--ink);background:var(--paper);padding:clamp(24px,4vw,44px);box-shadow:6px 6px 0 var(--ink)}
+.form-head{font-family:var(--mono);font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:var(--steel);display:flex;justify-content:space-between;border-bottom:var(--hair) var(--ink);padding-bottom:14px;margin-bottom:28px}
+.field{margin-bottom:24px}
+label{display:block;font-family:var(--mono);font-size:11px;letter-spacing:.2em;text-transform:uppercase;margin-bottom:8px}
+input,select,textarea{width:100%;border:none;border-bottom:var(--hair) var(--ink);background:transparent;font-family:var(--body);font-size:15px;padding:10px 2px;border-radius:0;color:var(--ink)}
+textarea{min-height:110px;resize:vertical}
+.form-ok{display:none;font-family:var(--mono);font-size:13px;border:1px solid var(--accent);padding:16px;margin-top:20px}
+@media(max-width:860px){.contact-grid{grid-template-columns:1fr}}
+
+/* ============ FOOTER ============ */
+footer.site{background:var(--black);color:var(--steel);padding:44px 0;font-family:var(--mono);font-size:11px;letter-spacing:.14em;text-transform:uppercase}
+.foot-in{max-width:var(--max);margin:0 auto;padding:0 var(--pad);display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;align-items:center}
+footer.site a{text-decoration:none;color:var(--steel)}
+footer.site a:hover{color:var(--white)}
+.foot-mark{color:var(--white);font-family:var(--display);letter-spacing:.16em;font-weight:700;font-size:14px}
+
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  html{scroll-behavior:auto}
+  .rv{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ NAV ============ -->
+<nav>
+  <div class="nav-in">
+    <a class="wordmark" href="#top" aria-label="Zepplin Studios — home">
+      <svg viewBox="0 0 68 30" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true">
+        <ellipse cx="30" cy="12" rx="28" ry="10"/>
+        <path d="M52 6 L66 2 M52 18 L66 22 M66 2 L66 22"/>
+        <path d="M24 22 h12 l-2 4 h-8 z"/>
+      </svg>
+      ZEPPLIN STUDIOS
+    </a>
+    <ul class="nav-links">
+      <li><a href="#pillars" data-en="What we do">Wat we doen</a></li>
+      <li><a href="#sectors" data-en="Sectors">Sectoren</a></li>
+      <li><a href="#scan" data-en="How to start">Starten</a></li>
+      <li><a href="#case" data-en="Case">Case</a></li>
+      <li><a href="#faq" data-en="FAQ">FAQ</a></li>
+      <li><a href="#contact" data-en="Contact">Contact</a></li>
+    </ul>
+    <div class="nav-right">
+      <button class="lang-toggle" id="langToggle" aria-label="Switch language">EN</button>
+      <a class="btn accent nav-cta" href="#contact" data-en="Book a scan">Plan een scan</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ============ HERO ============ -->
+<header class="hero" id="top">
+  <div class="hero-grid" aria-hidden="true"></div>
+
+  <svg class="hero-zep" viewBox="0 0 720 300" fill="none" stroke-width="1.1" aria-hidden="true">
+    <ellipse cx="330" cy="130" rx="290" ry="78"/>
+    <ellipse cx="130" cy="130" rx="26" ry="66" opacity=".45"/>
+    <ellipse cx="230" cy="130" rx="32" ry="76" opacity=".45"/>
+    <ellipse cx="330" cy="130" rx="34" ry="78" opacity=".45"/>
+    <ellipse cx="430" cy="130" rx="32" ry="76" opacity=".45"/>
+    <ellipse cx="530" cy="130" rx="24" ry="62" opacity=".45"/>
+    <path d="M42 118 Q330 30 618 118" opacity=".4"/>
+    <path d="M42 142 Q330 230 618 142" opacity=".4"/>
+    <path d="M570 96 L688 62 L668 112"/>
+    <path d="M570 164 L688 198 L668 148"/>
+    <path d="M602 84 L602 176" opacity=".5"/>
+    <path d="M270 206 h96 l-10 22 h-76 z"/>
+    <line x1="292" y1="206" x2="296" y2="196"/>
+    <line x1="344" y1="206" x2="340" y2="196"/>
+    <circle cx="386" cy="222" r="3"/>
+    <line x1="386" y1="206" x2="386" y2="238" opacity=".7"/>
+    <line x1="40" y1="262" x2="620" y2="262" opacity=".5"/>
+    <line x1="40" y1="254" x2="40" y2="270" opacity=".5"/>
+    <line x1="620" y1="254" x2="620" y2="270" opacity=".5"/>
+    <text x="316" y="282" fill="#666" stroke="none" font-family="IBM Plex Mono,monospace" font-size="11" letter-spacing="2">L = 236.6 m</text>
+  </svg>
+
+  <p class="fig" data-en="Fig. 1 — LZ 127.&lt;br&gt;Revolutionary then. AI now." data-html>Fig. 1 — LZ 127.<br>Revolutionair toen. AI nu.</p>
+
+  <div class="hero-body wrap">
+    <p class="eyebrow" data-en="Zepplin Studios · Digitalisation &amp; automation · Brugge">Zepplin Studios · Digitalisering &amp; automatisering · Brugge</p>
+    <h1 data-en="From floor to invoice: &lt;em&gt;one flow.&lt;/em&gt;" data-html>Van vloer tot factuur: <em>één flow.</em></h1>
+    <p class="hero-sub" data-en="We digitalise industrial SMEs across four pillars: registration on the floor, digital documents, access control &amp; ISPS, and Peppol &amp; ERP. Connected to what you already have. Working software in weeks.">Wij digitaliseren industriële kmo's langs vier pijlers: registratie op de vloer, digitale documenten, toegangscontrole &amp; ISPS, en Peppol &amp; ERP. Gekoppeld aan wat u al hebt. Werkende software in weken.</p>
+    <div class="hero-ctas">
+      <a class="btn accent" href="#scan" data-en="How to start">Zo start u</a>
+      <a class="btn inverse" href="#pillars" data-en="The four pillars">De vier pijlers</a>
+      <span class="price-hint" data-en="Scan at a fixed price — or straight to one solution">Scan aan vaste prijs — of recht op één oplossing</span>
+    </div>
+  </div>
+  <div style="position:absolute;bottom:0;left:0;right:0;background:var(--black)">
+    <div class="hero-baseline">
+      <span data-en="Registration">Registratie</span><span data-en="Digital documents">Digitale documenten</span><span data-en="ISPS &amp; Access">ISPS &amp; Toegang</span><span>Peppol &amp; ERP</span><span>51.2°N — 3.2°E</span>
+    </div>
+  </div>
+</header>
+
+<!-- ============ PROBLEM ============ -->
+<section class="problem">
+  <div class="wrap">
+    <p class="eyebrow rv" data-en="The problem">Het probleem</p>
+    <h2 class="rv" data-en="Information comes in everywhere. And flows through nowhere.">Informatie komt langs overal binnen. En stroomt nergens door.</h2>
+    <p class="problem-lede rv" data-en="Mail, phone, WhatsApp, paper, Excel. Everything gets re-typed from one place to the next — and every re-type is a chance for an error. One typo in one step, and the whole flow downstream is wrong.">Mail, telefoon, WhatsApp, papier, Excel. Alles wordt overgetypt van de ene plek naar de andere — en elke overtypbeurt is een kans op een fout. Eén tikfout in één stap, en heel de flow erachter zit fout.</p>
+
+    <div class="flow">
+      <div class="papers rv">
+        <div class="paper"><b>E-mail</b><span data-en="order in a PDF attachment" style="color:var(--ink)">bestelling in PDF-bijlage</span><br><span data-en="re-typed into the system">overgetypt in het systeem</span></div>
+        <div class="paper"><b data-en="Phone">Telefoon</b><span data-en="price agreed verbally" style="color:var(--ink)">prijs mondeling afgesproken</span><br><span data-en="noted on a post-it">genoteerd op een post-it</span></div>
+        <div class="paper"><b>WhatsApp</b><span data-en="driver sends photo of note" style="color:var(--ink)">chauffeur stuurt foto van bon</span><br><span data-en="someone types it over later">iemand typt het later over</span></div>
+        <div class="paper"><b data-en="Paper">Papier</b><span data-en="work order, signed" style="color:var(--ink)">werkbon, getekend</span><br><span data-en="in a cabin, a binder, a pocket">in een cabine, klasseur, broekzak</span></div>
+        <div class="paper"><b>Excel 1</b><span data-en="the planning" style="color:var(--ink)">de planning</span><br><span data-en="copied by hand into…">met de hand gekopieerd naar…</span></div>
+        <div class="paper"><b>Excel 2</b><span data-en="the invoicing" style="color:var(--ink)">de facturatie</span><br><span data-en="same numbers, typed again">zelfde cijfers, opnieuw getypt</span></div>
+      </div>
+      <div class="flow-arrow rv d1">
+        <svg viewBox="0 0 64 24" fill="none" stroke-width="1.4" aria-hidden="true">
+          <line x1="0" y1="12" x2="54" y2="12" stroke-dasharray="4 5"/>
+          <path d="M52 5 L62 12 L52 19"/>
+        </svg>
+        Zepplin
+      </div>
+      <div class="digital rv d2">
+        <b data-en="One digital flow">Eén digitale flow</b>
+        <span class="ok" data-en="Incoming info read automatically">Binnenkomende info automatisch gelezen</span><br>
+        <span class="ok" data-en="Entered once, at the source">Eén keer ingegeven, aan de bron</span><br>
+        <span class="ok" data-en="Every next step fills itself in">Elke volgende stap vult zichzelf in</span><br>
+        <span class="ok" data-en="An error is visible where it happens">Een fout is zichtbaar waar hij ontstaat</span><br>
+        <span class="ok" data-en="Invoice → same day, via Peppol">Factuur → dezelfde dag, via Peppol</span>
+      </div>
+    </div>
+
+    <div class="cascade rv" aria-label="Foutcascade">
+      <div class="cstep"><i>1</i><span data-en="Order noted">Bestelling genoteerd</span></div>
+      <div class="carrow">→</div>
+      <div class="cstep err"><i>✕</i><span data-en="Typo when re-typing">Tikfout bij overtypen</span></div>
+      <div class="carrow err">→</div>
+      <div class="cstep err"><i>✕</i><span data-en="Wrong delivery">Verkeerde levering</span></div>
+      <div class="carrow err">→</div>
+      <div class="cstep err"><i>✕</i><span data-en="Wrong invoice + credit note">Verkeerde factuur + creditnota</span></div>
+      <div class="carrow err">→</div>
+      <div class="cstep err"><i>✕</i><span data-en="Calls, searching, apologising">Bellen, zoeken, excuseren</span></div>
+    </div>
+
+    <div class="problem-stat rv">
+      <strong data-en="One error in one step = the whole flow wrong. And hours finding out where it went wrong.">Eén fout in één stap = de hele flow fout. En uren zoeken waar het misliep.</strong>
+      <span data-en="We remove exactly that.">Exact dat halen wij weg.</span>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PILLARS ============ -->
+<section class="pillars" id="pillars">
+  <div class="wrap">
+    <p class="eyebrow rv" data-en="What we do">Wat we doen</p>
+    <h2 class="rv" data-en="Four pillars. One line.">Vier pijlers. Eén lijn.</h2>
+    <p class="pillars-lede rv" data-en="Everything we build fits one chain: capture what happens on the floor, turn it into digital documents, control who enters, invoice automatically. You can start at any link.">Alles wat we bouwen past in één keten: leg vast wat er op de vloer gebeurt, maak er digitale documenten van, controleer wie binnenkomt, factureer automatisch. U kunt op elke schakel instappen.</p>
+
+    <div class="chain rv">
+      <span data-en="Registration">Registratie</span><span class="arrow">→</span>
+      <span data-en="Digital documents">Digitale documenten</span><span class="arrow">→</span>
+      <span data-en="ISPS &amp; Access">ISPS &amp; Toegang</span><span class="arrow">→</span>
+      <span>Peppol &amp; ERP</span>
+    </div>
+
+    <div class="pillar-grid">
+      <article class="pillar rv">
+        <span class="num">01</span>
+        <h3 data-en="Registration">Registratie</h3>
+        <span class="sub" data-en="Capture once, at the source">Eén keer vastleggen, aan de bron</span>
+        <p data-en="What happens on the floor gets recorded the moment it happens — by a sensor or one tap. Administration follows automatically.">Wat op de vloer gebeurt, wordt vastgelegd op het moment zelf — door een sensor of met één tik. De administratie volgt vanzelf.</p>
+        <ul>
+          <li data-en="Weighbridge readings, direct from the indicator">Wegingen, rechtstreeks van de indicator</li>
+          <li data-en="Machine hours &amp; presence">Machine-uren &amp; aanwezigheid</li>
+          <li data-en="Batches, lots &amp; quality checks">Batches, loten &amp; kwaliteitscontroles</li>
+          <li data-en="POD: photo + GPS + timestamp">POD: foto + GPS + tijdstempel</li>
+        </ul>
+      </article>
+
+      <article class="pillar rv d1">
+        <span class="num">02</span>
+        <h3 data-en="Digital documents">Digitale documenten</h3>
+        <span class="sub" data-en="From paper trail to data flow">Van papierspoor naar datastroom</span>
+        <p data-en="Weighing notes, CMRs, work orders, HACCP records: filled in on a tablet, signed on the spot, archived automatically — searchable forever.">Weegbonnen, CMR's, werkbonnen, HACCP-registraties: ingevuld op een tablet, ter plaatse getekend, automatisch gearchiveerd — voor altijd doorzoekbaar.</p>
+        <ul>
+          <li data-en="Digital weighing documents &amp; registers">Digitale weegdocumenten &amp; registers</li>
+          <li data-en="e-CMR &amp; delivery notes with signature">e-CMR &amp; leveringsbonnen met handtekening</li>
+          <li data-en="Work orders &amp; production documents">Werkbonnen &amp; productiedocumenten</li>
+          <li data-en="Reading messy PDFs &amp; scans (AI where it helps)">Rommelige PDF's &amp; scans uitlezen (AI waar het helpt)</li>
+        </ul>
+      </article>
+
+      <article class="pillar rv">
+        <span class="num">03</span>
+        <h3 data-en="ISPS &amp; Access">ISPS &amp; Toegang</h3>
+        <span class="sub" data-en="Who enters, screened and logged">Wie binnenkomt, gescreend en gelogd</span>
+        <p data-en="Access control for industrial sites — from badge and ANPR to legally required port-ban screening. Built for ISPS terminals, useful far beyond them.">Toegangscontrole voor industriële sites — van badge en nummerplaatherkenning tot wettelijk verplichte havenverbodscreening. Gebouwd voor ISPS-terminals, bruikbaar ver daarbuiten.</p>
+        <ul>
+          <li data-en="Port-ban screening (AIGIS connection)">Havenverbodscreening (AIGIS-koppeling)</li>
+          <li data-en="Badge / QR / ANPR gate access">Badge- / QR- / ANPR-toegang</li>
+          <li data-en="Driver self-onboarding &amp; ID verification">Chauffeur-zelfregistratie &amp; ID-verificatie</li>
+          <li data-en="Visitor log &amp; evacuation list">Bezoekersregister &amp; evacuatielijst</li>
+        </ul>
+        <span class="tag" data-en="Running in production on port sites">In productie op havensites</span>
+      </article>
+
+      <article class="pillar rv d1">
+        <span class="num">04</span>
+        <h3>Peppol &amp; ERP</h3>
+        <span class="sub" data-en="Invoicing &amp; purchasing, connected">Facturatie &amp; aankoop, verbonden</span>
+        <p data-en="E-invoicing is mandatory for B2B in Belgium since 2026. We connect you to Peppol and go further: purchasing flow, invoice matching, and invoices generated straight from your operations.">E-facturatie is sinds 2026 verplicht voor B2B in België. Wij sluiten u aan op Peppol en gaan verder: aankoopflow, factuurcontrole, en facturen die rechtstreeks uit uw operatie ontstaan.</p>
+        <ul>
+          <li data-en="Peppol connection &amp; e-invoicing">Peppol-aansluiting &amp; e-facturatie</li>
+          <li data-en="Purchasing flow: request → order → receipt">Aankoopflow: aanvraag → bestelbon → ontvangst</li>
+          <li data-en="Incoming invoices matched automatically (3-way)">Inkomende facturen automatisch gematcht (3-way)</li>
+          <li data-en="Invoices straight from weighings &amp; work orders">Facturen rechtstreeks uit wegingen &amp; werkbonnen</li>
+        </ul>
+        <span class="tag" data-en="Legally required since 2026">Wettelijk verplicht sinds 2026</span>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ============ SECTORS STRIP ============ -->
+<section class="sectors" id="sectors">
+  <div class="wrap">
+    <p class="eyebrow rv" data-en="Sectors">Sectoren</p>
+    <h2 class="rv" data-en="We speak your floor's language.">Wij spreken de taal van uw vloer.</h2>
+    <div class="sector-strip rv">
+      <div class="sector">
+        <span class="num">S-01</span>
+        <h3 data-en="Port &amp; Logistics">Haven &amp; Logistiek</h3>
+        <ul>
+          <li data-en="ISPS &amp; gate screening">ISPS- &amp; poortscreening</li>
+          <li data-en="Weighbridge automation">Weegbrugautomatisering</li>
+          <li data-en="CMR &amp; container documents">CMR- &amp; containerdocumenten</li>
+        </ul>
+      </div>
+      <div class="sector">
+        <span class="num">S-02</span>
+        <h3 data-en="Food">Voeding</h3>
+        <ul>
+          <li data-en="Traceability &amp; lots">Traceerbaarheid &amp; loten</li>
+          <li data-en="HACCP, digital">HACCP, digitaal</li>
+          <li data-en="Order intake without re-typing">Orderintake zonder overtypen</li>
+        </ul>
+      </div>
+      <div class="sector">
+        <span class="num">S-03</span>
+        <h3 data-en="Manufacturing">Productie</h3>
+        <ul>
+          <li data-en="Work orders &amp; worksheets">Werkbonnen &amp; werkbladen</li>
+          <li data-en="Production documents">Productiedocumenten</li>
+          <li data-en="Planning from the floor">Planning vanaf de vloer</li>
+        </ul>
+      </div>
+      <div class="sector">
+        <span class="num">S-04</span>
+        <h3>Transport</h3>
+        <ul>
+          <li>e-CMR &amp; POD</li>
+          <li data-en="Dispatch &amp; trip planning">Dispatch &amp; ritplanning</li>
+          <li data-en="Invoicing per trip, automatic">Facturatie per rit, automatisch</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ START (two routes) ============ -->
+<section class="scan" id="scan">
+  <div class="wrap">
+    <p class="eyebrow rv" data-en="How to start">Zo start u</p>
+    <h2 class="rv" data-en="Two ways in.">Twee manieren om te starten.</h2>
+    <p class="scan-lede rv" style="margin-bottom:56px" data-en="Some companies want to digitalise but don't know where to begin. Others have one very specific problem. There's a short route for both.">Sommige bedrijven willen digitaliseren maar weten niet waar eerst te beginnen. Andere hebben één heel concreet probleem. Voor allebei is er een korte weg.</p>
+  </div>
+  <div class="wrap scan-grid">
+    <div>
+      <p class="eyebrow rv" style="color:var(--accent)" data-en="Route A — You don't know where to begin">Route A — U weet niet waar te beginnen</p>
+      <h3 class="rv" style="font-size:clamp(22px,2.6vw,32px);text-transform:uppercase;margin:16px 0 18px" data-en="The Digitalisation Scan.">De Digitaliseringsscan.</h3>
+      <p class="scan-lede rv" data-en="You don't need a project. You need clarity. We spend half a day on your floor — at the weighbridge, in dispatch, in the office — and map where paper moves and where time dies.">U hebt geen project nodig. U hebt duidelijkheid nodig. Wij lopen een halve dag mee op uw vloer — aan de weegbrug, in de dispatch, op het bureau — en brengen in kaart waar papier beweegt en waar tijd sterft.</p>
+      <ul class="scan-points rv">
+        <li><b>08:00</b><span data-en="We walk your flow: from order to invoice, document by document.">We volgen uw flow: van bestelling tot factuur, document per document.</span></li>
+        <li><b>11:00</b><span data-en="We check what your current systems (ERP, weighbridge, Excel) can already deliver — and your Peppol status.">We bekijken wat uw huidige systemen (ERP, weegbrug, Excel) al kunnen leveren — en uw Peppol-status.</span></li>
+        <li><b>13:00</b><span data-en="We identify the two or three flows where automation pays back fastest.">We benoemen de twee à drie stromen waar automatisering zich het snelst terugverdient.</span></li>
+        <li><b>+3d</b><span data-en="You receive one A4 action plan: what to automate first, what it connects to, what it saves.">U ontvangt één A4-stappenplan: wat eerst te automatiseren, waaraan het koppelt, wat het opbrengt.</span></li>
+      </ul>
+    </div>
+    <div>
+      <div class="offer-card rv d1" style="position:static;margin-bottom:32px">
+        <div class="offer-head"><span>Doc. Z-01</span><span data-en="Fixed-price offer">Aanbod aan vaste prijs</span></div>
+        <h3 data-en="Digitalisation Scan">Digitaliseringsscan</h3>
+        <p class="offer-price">€ 950 <small data-en="Fixed price, excl. VAT — no surprises">Vaste prijs, excl. btw — geen verrassingen</small></p>
+        <ul>
+          <li data-en="Half a day on site, on your floor">Halve dag ter plaatse, op uw vloer</li>
+          <li data-en="One A4 action plan: priorities, connections, savings">Eén A4-stappenplan: prioriteiten, koppelingen, besparing</li>
+          <li data-en="Peppol-readiness check included">Peppol-gereedheidscheck inbegrepen</li>
+          <li data-en="No obligations. The action plan is yours, whoever builds it.">Geen verplichtingen. Het stappenplan is van u, wie het ook bouwt.</li>
+        </ul>
+        <a class="btn accent" href="#contact" data-en="Book a scan">Plan een scan</a>
+        <p class="offer-note" data-en="Honest by design: if there's nothing worth automating, the action plan says so.">Eerlijk per ontwerp: als er niets is dat de moeite loont om te automatiseren, dan staat dát in het stappenplan.</p>
+      </div>
+      <div class="rv d2" style="border:1px solid var(--ink);background:var(--white);padding:clamp(22px,3vw,34px)">
+        <div class="offer-head"><span>Doc. Z-02</span><span data-en="Straight to the point">Recht op doel</span></div>
+        <p class="eyebrow" style="color:var(--accent);margin-bottom:14px" data-en="Route B — You have one specific problem">Route B — U hebt één concreet probleem</p>
+        <p style="font-size:15px;color:var(--steel);margin-bottom:18px" data-en="A weighbridge that doesn't talk to your administration. Work orders that pile up. Peppol that needs sorting. Skip the scan — describe the problem, we come and look, and you get a fixed quote for that one solution. Nothing more.">Een weegbrug die niet doorpraat met uw administratie. Werkbonnen die blijven liggen. Peppol dat geregeld moet raken. Sla de scan over — beschrijf het probleem, wij komen kijken, en u krijgt een vaste offerte voor die ene oplossing. Meer niet.</p>
+        <a class="btn" href="#contact" data-en="Describe your problem">Beschrijf uw probleem</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ CASE ============ -->
+<section class="case" id="case">
+  <div class="wrap">
+    <p class="eyebrow rv" data-en="Field record">Veldverslag</p>
+    <h2 class="rv" data-en="One ticket, typed three times. Now zero.">Eén ticket, drie keer overgetypt. Nu nul keer.</h2>
+    <div class="case-card rv">
+      <div class="case-visual">
+        <div class="case-stamp"><span data-en="Record 026-A">Verslag 026-A</span><span data-en="Weighbridge site · Coastal port region">Weegbrugsite · Kusthavenregio</span></div>
+        <svg viewBox="0 0 380 220" aria-hidden="true">
+          <rect x="30" y="150" width="220" height="14"/>
+          <line x1="30" y1="164" x2="30" y2="180"/><line x1="250" y1="164" x2="250" y2="180"/>
+          <line x1="20" y1="180" x2="260" y2="180"/>
+          <path d="M60 150 v-34 h84 v34 M144 116 h34 l16 18 v16"/>
+          <circle cx="84" cy="150" r="9"/><circle cx="168" cy="150" r="9"/>
+          <rect x="290" y="96" width="58" height="84"/>
+          <rect x="298" y="106" width="42" height="20"/>
+          <text x="303" y="121" stroke="none" fill="#FF4D00" font-family="IBM Plex Mono,monospace" font-size="11">28540</text>
+          <line x1="298" y1="140" x2="340" y2="140" opacity=".5"/>
+          <line x1="298" y1="152" x2="340" y2="152" opacity=".5"/>
+          <path d="M319 96 V60 H210" stroke-dasharray="4 5"/>
+          <rect x="150" y="44" width="60" height="32"/>
+          <text x="160" y="64" stroke="none" fill="#FFFFFF" font-family="IBM Plex Mono,monospace" font-size="10">CLOUD</text>
+          <text x="30" y="208" stroke="none" fill="#666666" font-family="IBM Plex Mono,monospace" font-size="10" data-en="Fig. 2 — indicator → gateway → administration">Fig. 2 — indicator → gateway → administratie</text>
+        </svg>
+        <div class="case-stamp"><span>2026</span><span class="live" data-en="● Live in production">● Live in productie</span></div>
+      </div>
+      <div class="case-body">
+        <h3 data-en="Weighbridge, unchanged. Workflow, transformed.">Weegbrug onveranderd. Werkwijze getransformeerd.</h3>
+        <div class="case-rows">
+          <div class="case-row"><b data-en="Situation">Situatie</b><span data-en="A bulk site where every weighing produced a paper ticket — typed into the register, into Excel, and into the invoice. Three times, by hand.">Een bulksite waar elke weging een papieren ticket opleverde — ingetypt in het register, in Excel én in de factuur. Drie keer, met de hand.</span></div>
+          <div class="case-row"><b data-en="Constraint">Randvoorwaarde</b><span data-en="The existing weighbridge and indicator stayed. Legally calibrated hardware is not something you casually replace.">De bestaande weegbrug en indicator bleven staan. Geijkte hardware vervang je niet zomaar.</span></div>
+          <div class="case-row"><b data-en="Solution">Oplossing</b><span data-en="A small gateway reads the indicator directly. Every weighing lands as structured data in the administration — automatically, the moment the truck rolls off.">Een kleine gateway leest de indicator rechtstreeks uit. Elke weging landt als gestructureerde data in de administratie — automatisch, op het moment dat de camion van de brug rijdt.</span></div>
+          <div class="case-row"><b data-en="Result">Resultaat</b><span data-en="Zero re-typing. No lost tickets. Invoicing follows the weighing instead of the paper trail. Validated on thousands of real weighings before go-live.">Nul keer overtypen. Geen verloren tickets. Facturatie volgt de weging in plaats van het papierspoor. Gevalideerd op duizenden echte wegingen vóór de livegang.</span></div>
+        </div>
+        <blockquote class="case-quote">
+          <p data-en='"They didn&#39;t send consultants. They sent software — and it worked."'>"Ze stuurden geen consultants. Ze stuurden software — en die werkte."</p>
+          <footer data-en="Operations manager · anonymised at client's request">Verantwoordelijke exploitatie · geanonimiseerd op vraag van de klant</footer>
+        </blockquote>
+      </div>
+    </div>
+    <p class="case-more rv" data-en="We also build and operate our own platforms — for weighbridge management and for port access screening — running in production at multiple sites. We automate with software we'd trust our own name on.">Wij bouwen en beheren ook eigen platformen — voor weegbrugbeheer en voor toegangsscreening in de haven — die op meerdere sites in productie draaien. We automatiseren met software waar we onze eigen naam op durven zetten.</p>
+  </div>
+</section>
+
+<!-- ============ APPROACH ============ -->
+<section class="approach" id="approach">
+  <div class="wrap">
+    <p class="eyebrow rv" data-en="Approach">Aanpak</p>
+    <h2 class="rv" data-en="Four steps to lift-off.">Vier stappen tot lift-off.</h2>
+    <p class="approach-lede rv" data-en="Working software in weeks — not slideware in months. We build next to the people who'll use it.">Werkende software in weken — geen slides in maanden. We bouwen naast de mensen die ermee moeten werken.</p>
+
+    <div class="flightpath rv" aria-hidden="true">
+      <svg viewBox="0 0 1200 60" preserveAspectRatio="none">
+        <path class="path" d="M10 46 C 300 46, 340 14, 600 14 S 900 46, 1190 46"/>
+        <circle class="node" cx="10" cy="46" r="5"/>
+        <circle class="node" cx="405" cy="21" r="5"/>
+        <circle class="node" cx="800" cy="24" r="5"/>
+        <circle class="node" cx="1190" cy="46" r="5"/>
+      </svg>
+    </div>
+
+    <div class="steps">
+      <div class="step rv"><span class="code" data-en="Step 1">Stap 1</span><h3>Scan</h3><p data-en="Half a day on your floor. We map where paper moves and where time dies.">Halve dag op uw vloer. We brengen in kaart waar papier beweegt en waar tijd sterft.</p></div>
+      <div class="step rv d1"><span class="code" data-en="Step 2">Stap 2</span><h3 data-en="Action plan">Stappenplan</h3><p data-en="One A4: what we automate, what it connects to, what it saves.">Eén A4: wat we automatiseren, waaraan het koppelt, wat het opbrengt.</p></div>
+      <div class="step rv d2"><span class="code" data-en="Step 3">Stap 3</span><h3 data-en="Build">Bouw</h3><p data-en="A working first version in weeks, refined with your team on the floor.">Een werkende eerste versie in weken, bijgestuurd met uw team op de vloer.</p></div>
+      <div class="step rv d3"><span class="code" data-en="Step 4">Stap 4</span><h3>Lift-off</h3><p data-en="Live in production. Measured, monitored, quietly doing the work.">Live in productie. Gemeten, opgevolgd, en stilletjes het werk aan het doen.</p></div>
+    </div>
+
+    <p class="approach-note rv" data-en="No steering committees. No rip-and-replace. Software that ships.">Geen stuurgroepen. Geen alles-vervangen. Software die geleverd wordt.</p>
+  </div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq" id="faq">
+  <div class="wrap">
+    <p class="eyebrow rv" data-en="Honest answers">Eerlijke antwoorden</p>
+    <h2 class="rv" data-en="What every owner asks first.">Wat elke zaakvoerder eerst vraagt.</h2>
+    <div class="faq-list rv">
+      <details>
+        <summary data-en="We're not on Peppol yet. How urgent is that?">Wij zijn nog niet in orde met Peppol. Hoe dringend is dat?</summary>
+        <p data-en="Structured e-invoicing is mandatory for B2B invoices between Belgian companies since 1 January 2026. If you're not connected yet, that's the first thing we fix — it's usually days of work, not months, and it's the natural moment to clean up the rest of your invoice flow at the same time.">Gestructureerde e-facturatie is sinds 1 januari 2026 verplicht voor B2B-facturen tussen Belgische ondernemingen. Bent u nog niet aangesloten, dan is dat het eerste wat we regelen — meestal dagen werk, geen maanden, en meteen hét moment om de rest van uw factuurstroom mee op te kuisen.</p>
+      </details>
+      <details>
+        <summary data-en="Do we always need the scan first?">Moeten we altijd eerst een scan doen?</summary>
+        <p data-en="No. The scan is for companies that want to digitalise but don't know where to begin. If you have one clearly defined problem — a weighbridge, your work orders, Peppol — we go straight at it: we come and look, you get a fixed quote for that one solution. The scan often follows later, once the first result creates appetite for more.">Nee. De scan is voor bedrijven die willen digitaliseren maar niet weten waar eerst te beginnen. Hebt u één afgelijnd probleem — een weegbrug, uw werkbonnen, Peppol — dan gaan we daar rechtstreeks op af: wij komen kijken, u krijgt een vaste offerte voor die ene oplossing. De scan volgt vaak later, wanneer het eerste resultaat smaak naar meer geeft.</p>
+      </details>
+      <details>
+        <summary data-en="What does it cost?">Wat kost dat?</summary>
+        <p data-en="The scan is € 950, fixed. After that, every project starts from the action plan with a fixed quote per step — you decide per step whether to continue. First automations typically land in the range of a few thousand to a few tens of thousands of euros, depending on scope. No subscriptions you don't understand, no daily rates without an end date.">De scan kost € 950, vast. Daarna vertrekt elk project vanuit het stappenplan met een vaste offerte per stap — u beslist per stap of we verdergaan. Eerste automatiseringen zitten typisch in de range van enkele duizenden tot enkele tienduizenden euro's, afhankelijk van de scope. Geen abonnementen die u niet begrijpt, geen dagtarieven zonder einddatum.</p>
+      </details>
+      <details>
+        <summary data-en="How long does it take?">Hoelang duurt dat?</summary>
+        <p data-en="The scan: half a day, action plan within a week. A first working automation: weeks, not months. We deliberately start with the flow that pays back fastest, so you see results before you've committed to anything big.">De scan: een halve dag, stappenplan binnen de week. Een eerste werkende automatisering: weken, geen maanden. We starten bewust met de stroom die zich het snelst terugverdient, zodat u resultaat ziet vóór u zich aan iets groots verbindt.</p>
+      </details>
+      <details>
+        <summary data-en="Do we have to replace our current systems?">Moeten we onze huidige systemen vervangen?</summary>
+        <p data-en="No. That's the point. Your ERP, your weighbridge, your Excel files — they stay. We connect them and remove the manual re-typing between them. Replacing calibrated or embedded systems is expensive and risky; connecting them is not.">Nee. Dat is net het punt. Uw ERP, uw weegbrug, uw Excel-bestanden — die blijven. Wij verbinden ze en halen het handmatige overtypen ertussenuit. Geijkte of ingebedde systemen vervangen is duur en riskant; ze verbinden is dat niet.</p>
+      </details>
+      <details>
+        <summary data-en="Where does our data live?">Waar staat onze data?</summary>
+        <p data-en="On European servers, in your own environment where possible. You own your data, always — also if we ever part ways. We put that in writing.">Op Europese servers, waar mogelijk in uw eigen omgeving. Uw data is van u, altijd — ook als we ooit uit elkaar gaan. Dat zetten we op papier.</p>
+      </details>
+      <details>
+        <summary data-en="Our people aren't IT people. Will this work for them?">Onze mensen zijn geen IT'ers. Gaat dat lukken?</summary>
+        <p data-en="It has to. We build for the person at the weighbridge, in the truck, on the shop floor — not for the IT department. If it needs a manual, we've built it wrong. And we're on your floor during the first weeks, not on the other end of a ticket system.">Het moet. We bouwen voor de mens aan de weegbrug, in de camion, op de werkvloer — niet voor de IT-afdeling. Als er een handleiding nodig is, hebben we het verkeerd gebouwd. En de eerste weken staan we op uw vloer, niet aan de andere kant van een ticketsysteem.</p>
+      </details>
+      <details>
+        <summary data-en='Is this "AI"? We\'re sceptical.'>Is dit "AI"? Wij zijn sceptisch.</summary>
+        <p data-en="Good — stay sceptical. Most of the value is solid digitalisation: reading documents, connecting systems, removing re-typing. We use AI where it genuinely helps (reading messy documents, for instance), and nowhere else. We sell time saved, not buzzwords.">Goed zo — blijf sceptisch. Het grootste deel van de waarde is degelijke digitalisering: documenten uitlezen, systemen verbinden, overtypen schrappen. We gebruiken AI waar het écht helpt (rommelige documenten uitlezen bijvoorbeeld), en nergens anders. We verkopen gewonnen tijd, geen buzzwords.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ============ MANIFESTO ============ -->
+<section class="manifesto">
+  <svg class="manifesto-zep" viewBox="0 0 720 300" fill="none" stroke-width="1.1" aria-hidden="true">
+    <ellipse cx="330" cy="130" rx="290" ry="78"/>
+    <ellipse cx="230" cy="130" rx="32" ry="76" opacity=".5"/>
+    <ellipse cx="430" cy="130" rx="32" ry="76" opacity=".5"/>
+    <path d="M570 96 L688 62 L668 112"/>
+    <path d="M570 164 L688 198 L668 148"/>
+    <path d="M270 206 h96 l-10 22 h-76 z"/>
+  </svg>
+  <h2>Be the <span>change.</span></h2>
+  <small data-en="A century ago, the zeppelin changed how the world moved. Today, digitalisation changes how work moves.">Een eeuw geleden veranderde de zeppelin hoe de wereld bewoog. Vandaag verandert digitalisering hoe werk beweegt.</small>
+</section>
+
+<!-- ============ CONTACT ============ -->
+<section class="contact" id="contact">
+  <div class="wrap contact-grid">
+    <div class="contact-info">
+      <p class="eyebrow rv">Contact</p>
+      <h2 class="rv" data-en="Book your scan.">Plan uw scan.</h2>
+      <p class="rv" data-en="Tell us where the paper piles up. We'll look at your floor, not your org chart — and tell you honestly what's worth automating first. And what isn't.">Vertel ons waar het papier zich opstapelt. Wij kijken naar uw vloer, niet naar uw organogram — en zeggen eerlijk wat de moeite is om eerst te automatiseren. En wat niet.</p>
+      <div class="contact-lines rv">
+        <a href="mailto:hallo@zepplin.eu">hallo@zepplin.eu</a><br>
+        <span data-en="Brugge, Belgium">Brugge, België</span><br>
+        <span data-en="Working across Flanders and the Benelux">Actief in Vlaanderen en de Benelux</span>
+      </div>
+    </div>
+    <form id="intake" novalidate class="rv d1">
+      <div class="form-head"><span>Form Z-01</span><span data-en="Scan request">Scanaanvraag</span></div>
+      <div class="field">
+        <label for="f-name" data-en="Name">Naam</label>
+        <input id="f-name" name="name" type="text" autocomplete="name" required>
+      </div>
+      <div class="field">
+        <label for="f-company" data-en="Company">Bedrijf</label>
+        <input id="f-company" name="company" type="text" autocomplete="organization" required>
+      </div>
+      <div class="field">
+        <label for="f-route" data-en="How do you want to start?">Hoe wilt u starten?</label>
+        <select id="f-route" name="route" required>
+          <option value="" data-en="Select…">Kies…</option>
+          <option data-en="Digitalisation Scan (€ 950 — I don't know where to begin)">Digitaliseringsscan (€ 950 — ik weet niet waar te beginnen)</option>
+          <option data-en="One specific problem (skip the scan)">Eén concreet probleem (scan overslaan)</option>
+          <option data-en="Not sure yet">Weet ik nog niet</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-topic" data-en="What is it about?">Waarover gaat het?</label>
+        <select id="f-topic" name="topic" required>
+          <option value="" data-en="Select…">Kies…</option>
+          <option data-en="Registration (weighbridge, hours, batches)">Registratie (weegbrug, uren, batches)</option>
+          <option data-en="Digital documents (work orders, CMR, HACCP)">Digitale documenten (werkbonnen, CMR, HACCP)</option>
+          <option data-en="ISPS &amp; access control">ISPS &amp; toegangscontrole</option>
+          <option data-en="Peppol &amp; ERP (e-invoicing, purchasing)">Peppol &amp; ERP (e-facturatie, aankoop)</option>
+          <option data-en="Not sure yet — that's what the scan is for">Nog niet zeker — daarvoor dient de scan</option>
+        </select>
+      </div>
+      <div class="field">
+        <label for="f-msg" data-en="Where does the paper pile up?">Waar stapelt het papier zich op?</label>
+        <textarea id="f-msg" name="message"></textarea>
+      </div>
+      <button class="btn accent" type="submit" data-en="Book a scan">Plan een scan</button>
+      <p class="form-ok" id="form-ok" data-en="Received. We'll get back to you within one working day.">Ontvangen. We nemen binnen één werkdag contact op.</p>
+    </form>
+  </div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="site">
+  <div class="foot-in">
+    <span class="foot-mark">ZEPPLIN STUDIOS</span>
+    <span>Brugge, BE</span>
+    <span data-en="Digitalisation for industries that move the real world.">Digitalisering voor sectoren die de echte wereld doen draaien.</span>
+    <span><a href="#top">Privacy</a> · <a href="#top" data-en="Legal">Juridisch</a> · © 2026</span>
+  </div>
+</footer>
+
+<script>
+// Scroll reveals
+const io = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} });
+},{threshold:.15});
+document.querySelectorAll('.rv').forEach(el=>io.observe(el));
+
+// Language toggle NL <-> EN
+let lang = 'nl';
+const toggle = document.getElementById('langToggle');
+toggle.addEventListener('click', ()=>{
+  const toEN = lang === 'nl';
+  document.querySelectorAll('[data-en]').forEach(el=>{
+    const isHTML = el.hasAttribute('data-html');
+    if(toEN){
+      if(!el.hasAttribute('data-nl')){
+        el.setAttribute('data-nl', isHTML ? el.innerHTML : el.textContent);
+      }
+      const en = el.getAttribute('data-en');
+      if(isHTML){ el.innerHTML = en; } else { el.textContent = en; }
+    }else{
+      const nl = el.getAttribute('data-nl');
+      if(nl !== null){
+        if(isHTML){ el.innerHTML = nl; } else { el.textContent = nl; }
+      }
+    }
+  });
+  lang = toEN ? 'en' : 'nl';
+  toggle.textContent = toEN ? 'NL' : 'EN';
+  document.documentElement.lang = lang;
+});
+
+// Form (front-end only)
+document.getElementById('intake').addEventListener('submit',(ev)=>{
+  ev.preventDefault();
+  document.getElementById('form-ok').style.display='block';
+  ev.target.querySelector('button').disabled = true;
+});
+</script>
+</body>
+</html>

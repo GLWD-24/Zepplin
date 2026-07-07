@@ -1,0 +1,42 @@
+name: Deploy naar one.com
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'site/**'
+      - '.github/workflows/deploy.yml'
+  workflow_dispatch: {}   # handmatig triggeren kan ook (Actions-tab → Run workflow)
+
+concurrency:
+  group: deploy-one-com
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Installeer lftp
+        run: sudo apt-get -qq update && sudo apt-get -qq install -y lftp
+
+      - name: Deploy /site via SFTP (mirror)
+        env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}          # bv. ssh.zepplin.eu
+          SFTP_USER: ${{ secrets.SFTP_USER }}          # zie one.com → SSH & SFTP
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+          SFTP_REMOTE_PATH: ${{ secrets.SFTP_REMOTE_PATH }}  # webroot, bv. "." of "/www"
+        run: |
+          lftp -u "$SFTP_USER","$SFTP_PASSWORD" "sftp://$SFTP_HOST" <<EOF
+          set sftp:auto-confirm yes
+          set net:max-retries 2
+          set net:timeout 20
+          mirror -R --delete --verbose ./site "$SFTP_REMOTE_PATH"
+          bye
+          EOF
+
+      # --delete verwijdert bestanden op de server die niet meer in /site staan,
+      # zodat de server altijd exact de repo spiegelt. Haal de flag weg als er
+      # bestanden op one.com staan die NIET in de repo zitten en moeten blijven.
